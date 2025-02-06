@@ -47,6 +47,20 @@ header {
             padding: 2rem;
             _cursor: pointer;
         }
+        .game-field[data-player="x"] {
+            background-image: url(./img/icon-x.svg);
+            background-repeat: no-repeat;
+            background-size: 150px;
+            background-position: center;
+            filter: drop-shadow(3px 3px 2px var(--heliotrope));
+        }
+        .game-field[data-player="o"] {
+            background-image: url(./img/icon-o.svg);
+            background-repeat: no-repeat;
+            background-size: 150px;
+            background-position: center;
+            filter: drop-shadow(3px 3px 2px var(--heliotrope));
+        }
     }
 }
 
@@ -77,12 +91,10 @@ body.player-x {
         background-repeat: no-repeat;
         background-size: 150px;
         background-position: center;
-        filter: drop-shadow(3px 3px 2px var(--bright-turqoise));
+        filter: drop-shadow(3px 3px 2px var(--heliotrope));
     }
     .game-field[data-player="x"]:hover,
     .game-field[data-player="o"]:hover {
-        background: none;
-        filter: none;
         cursor: url(./img/icon-block.svg), auto;
     }
 }
@@ -98,11 +110,10 @@ body.player-o {
         background-repeat: no-repeat;
         background-size: 150px;
         background-position: center;
-        filter: drop-shadow(3px 3px 2px var(--bright-turqoise));
+        filter: drop-shadow(3px 3px 2px var(--heliotrope));
     }
     .game-field[data-player="x"]:hover,
     .game-field[data-player="o"]:hover {
-        background: none;
-        filter: none;
+        cursor: url(./img/icon-block.svg), auto;
     }
 }
