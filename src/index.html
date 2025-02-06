@@ -2,9 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Fabi's Tic Tac Toe</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="player-x">
+    <header>
+        <h1 class="main-heading">Tic Tac Toe</h1>
+    </header>
+    <main>
+        <section class="game-field-section">
+            <h2>Current Player: </h2>
+            <div class="game-field-buttons">
+                <button class="game-field" data-player="x"></button>
+                <button class="game-field" data-player=""></button>
+                <button class="game-field" data-player=""></button>
+                <button class="game-field" data-player=""></button>
+                <button class="game-field" data-player=""></button>
+                <button class="game-field" data-player=""></button>
+                <button class="game-field" data-player=""></button>
+                <button class="game-field" data-player=""></button>
+                <button class="game-field" data-player=""></button> 
+            </div>
+        </section>
 
+        <!-- use data attributes to determine the buttons state -->
+    </main>
+    <footer>
+        <button id="reset-button"></button>
+    </footer>
+    
 </body>
 </html>
