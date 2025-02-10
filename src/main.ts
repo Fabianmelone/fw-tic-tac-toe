@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const win = [
         // rows
         ['one', 'two', 'three'],
-        ['three', 'four', 'five'],
-        ['six', 'seven', 'eight'],
+        ['four', 'five', 'six'],
+        ['seven', 'eight', 'nine'],
 
         //columns
         ['one', 'four', 'seven'],
@@ -56,19 +56,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
             //check for a win after every move
             if (checkWin(currentPlayer)) {
-                console.log(`Player ${currentPlayer} won!`)
+                console.log(`Player ${currentPlayer.toUpperCase()} won!`);
+                resetGame();
             }
             
         })
     });
 
+    // check for the win of each player
     function checkWin(player:string): boolean {
-        return win.some(combination => {
-            return combination.every(id => {
+        for (let combination of win) {
+            let matches = 0;
+
+            for (let id of combination) {
                 const field = document.getElementById(id);
-                return field?.getAttribute('data-player') === player;
-            });
-        });
+                if (field?.getAttribute('data-player') === player) {
+                    matches++;
+                }
+            }
+
+            if (matches === 3) {
+                return true;
+            }
+        }
+        //return false in all other cases
+        return false;
     }
+
+    
+    //reset the game again
+    function resetGame() {
+        gameFields.forEach((gameField) => {
+            gameField.removeAttribute('data-player');
+            gameField.disabled = false;
+        });
+        //remove the body class
+        body?.classList.remove('player-o', 'player-x');
+        //make random player start again
+        body?.classList.add(players[Math.floor(Math.random() * players.length)]);
+    }
+
 
 });
