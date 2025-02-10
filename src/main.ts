@@ -5,7 +5,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultMessage = document.querySelector<HTMLParagraphElement>('.result-text');
     const playerDisplay = document.querySelector<HTMLSpanElement>('#game-player');
 
-
+    // add interface to be able to load the current gamestate without any typescript issues
+    interface GameState {
+        fields: { id: string; player: string | null; disabled: boolean}[];
+        currentPlayer: string;
+        resultMessage: string | null;
+    }
 
     const win = [
         // rows
@@ -142,13 +147,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     //load game on the state where it got left off
-    function loadGameState() {
+    function loadGameState(): boolean {
         const savedState = localStorage.getItem('tic-tac-toe');
-        // if no saved game state return
-        if (!savedState) {return}; 
+        // if no saved game state return false
+        if (!savedState) {return false}; 
 
         // parse the current game state
-        const state = JSON.parse(savedState);
+        const state = JSON.parse(savedState) as GameState;
 
         // for each field fill out the data player attributes that were filled out before again and set the gameField to disabled
         state.fields.forEach((field: { id: string; player: string | null; disabled: boolean}) => {
@@ -171,6 +176,8 @@ document.addEventListener('DOMContentLoaded', () => {
             resultMessage!.style.display = 'block';
             resultMessage!.textContent = state.resultMessage;
         }
+        // return true if there is a saved state
+        return true;
     }
 
     //reset the game again
