@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const body = document.querySelector('body');
     const gameFields = document.querySelectorAll<HTMLButtonElement>('.game-field');
+    const resetButton = document.querySelector<HTMLButtonElement>('#reset-button');
 
 
     const win = [
@@ -18,9 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
         ['one', 'five', 'nine'],
         ['three', 'five', 'seven'],
     ]
-
-
-
 
 
     const players: string[] = ['player-o', 'player-x'];
@@ -95,5 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
         body?.classList.add(players[Math.floor(Math.random() * players.length)]);
     }
 
-
+    resetButton?.addEventListener('click', () => {
+        resetGame();
+    })
 });
