@@ -57,6 +57,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 resultMessage!.style.display = 'block';
                 resultMessage!.textContent =`Player ${currentPlayer.toUpperCase()} won!`;
                 setTimeout(resetGame, 2000);
+                //after testing I found out that it was showing a draw even if somebody won
+                return;
+            }
+
+            if (checkDraw()) {
+                resultMessage!.style.display = 'block';
+                resultMessage!.textContent = 'Draw!';
+                setTimeout(resetGame, 2000);
             }
             
         })
@@ -82,6 +90,17 @@ document.addEventListener('DOMContentLoaded', () => {
         return false;
     }
 
+
+    function checkDraw(): boolean {
+        for (let gameField of gameFields) {
+            if (!gameField.getAttribute('data-player')) {
+                // if any field is empty, not a draw
+                return false; 
+            }
+        }
+        // in this case all fields are filled, so its a draw
+        return true; 
+    }
     
     //reset the game again
     function resetGame() {
