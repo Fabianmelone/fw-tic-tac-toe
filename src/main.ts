@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const gameFields = document.querySelectorAll<HTMLButtonElement>('.game-field');
     const resetButton = document.querySelector<HTMLButtonElement>('#reset-button');
     const resultMessage = document.querySelector<HTMLParagraphElement>('.result-text');
+    const playerDisplay = document.querySelector<HTMLSpanElement>('#game-player');
+
 
 
     const win = [
@@ -25,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const players: string[] = ['player-o', 'player-x'];
     const randomPlayer = players[ Math.floor ( Math.random() * players.length )];
     body?.classList.add(randomPlayer);
+    updateCurrentPlayer();
     //add random class to the body, either the first or second player
 
 
@@ -51,6 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 body?.classList.add('player-o');
                 //same thing just the other way around
             }
+
+            updateCurrentPlayer();
 
             //check for a win after every move
             if (checkWin(currentPlayer)) {
@@ -113,6 +118,14 @@ document.addEventListener('DOMContentLoaded', () => {
         //make random player start again
         body?.classList.add(players[Math.floor(Math.random() * players.length)]);
         resultMessage!.style.display = 'none';
+    }
+
+    function updateCurrentPlayer() {
+        if(body?.classList.contains('player-o')) {
+            playerDisplay!.textContent = 'O';
+        } else {
+            playerDisplay!.textContent = 'X';
+        }
     }
 
     resetButton?.addEventListener('click', () => {

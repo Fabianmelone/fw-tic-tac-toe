@@ -29,7 +29,7 @@ header {
 
 .game-field-section {
     h2 {
-        margin: 1rem 0 0 4rem;
+        margin: 1rem 0 0 10rem;
         color: var(--heliotrope);
         font-size: 2rem;
     }
