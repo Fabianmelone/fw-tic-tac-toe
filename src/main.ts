@@ -1,11 +1,25 @@
 document.addEventListener('DOMContentLoaded', () => {
     const body = document.querySelector('body');
     const gameFields = document.querySelectorAll<HTMLButtonElement>('.game-field');
-    const buttonIds: string[] = [];
-    document.querySelectorAll<HTMLButtonElement>('.game-field').forEach((button) => {
-        buttonIds.push(button.id);
-    });
-    //add unique button ids to an array
+    const gameFieldIds = [...document.querySelectorAll<HTMLButtonElement>('.game-field')].map(button => button.id);
+
+
+    const win = [
+        // rows
+        ['one', 'two', 'three'],
+        ['three', 'four', 'five'],
+        ['six', 'seven', 'eight'],
+
+        //columns
+        ['one', 'four', 'seven'],
+        ['two', 'five', 'eight'],
+        ['three', 'six', 'nine'],
+
+        //diagonal
+        ['one', 'five', 'nine'],
+        ['three', 'five', 'seven'],
+    ]
+
 
 
 
