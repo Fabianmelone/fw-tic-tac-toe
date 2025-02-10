@@ -25,9 +25,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     const players: string[] = ['player-o', 'player-x'];
-    const randomPlayer = players[ Math.floor ( Math.random() * players.length )];
-    body?.classList.add(randomPlayer);
-    updateCurrentPlayer();
+
+    if (!loadGameState()) {
+        const randomPlayer = players[ Math.floor ( Math.random() * players.length )];
+        body?.classList.add(randomPlayer);
+        updateCurrentPlayer();
+    }
+
     //add random class to the body, either the first or second player
 
 
@@ -55,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 //same thing just the other way around
             }
 
+            saveGameState();
             updateCurrentPlayer();
 
             //check for a win after every move
@@ -107,6 +112,67 @@ document.addEventListener('DOMContentLoaded', () => {
         return true; 
     }
     
+
+
+    function updateCurrentPlayer() {
+        if(body?.classList.contains('player-o')) {
+            playerDisplay!.textContent = 'O';
+        } else {
+            playerDisplay!.textContent = 'X';
+        }
+    }
+
+
+    //this is the local storage current save of the gamestate
+    function saveGameState() {
+        const state: any = {
+            fields: Array.from(gameFields).map((field) => ({
+                //get an array of objects that save the current field id, the player with its current attribute and if the field is disabled or not
+                id: field.id,
+                player: field.getAttribute('data-player'),
+                disabled: field.disabled
+            })),
+            //check also the current body class
+            currentPlayer: body?.classList.contains('player-o') ? 'player-o' : 'player-x',
+            // also save the resultmessage, to have all the components of the current game state saved
+            resultMessage:resultMessage!.style.display === 'block' ? resultMessage!.textContent : null
+        };
+        localStorage.setItem('tic-tac-toe', JSON.stringify(state));
+    }
+
+
+    //load game on the state where it got left off
+    function loadGameState() {
+        const savedState = localStorage.getItem('tic-tac-toe');
+        // if no saved game state return
+        if (!savedState) {return}; 
+
+        // parse the current game state
+        const state = JSON.parse(savedState);
+
+        // for each field fill out the data player attributes that were filled out before again and set the gameField to disabled
+        state.fields.forEach((field: { id: string; player: string | null; disabled: boolean}) => {
+            const gameField = document.getElementById(field.id) as HTMLButtonElement;
+            if (field.player) {
+                gameField.setAttribute('data-player', field.player);
+                gameField.disabled = field.disabled;
+            }
+        });
+
+        //remove both body classes and add the current playerstate
+        body?.classList.remove('player-o', 'player-x');
+        body?.classList.add(state.currentPlayer);
+        //also update the player on the page
+        updateCurrentPlayer();
+
+
+        //if there is a resultmessage to show, also display it
+        if (state.resultMessage) {
+            resultMessage!.style.display = 'block';
+            resultMessage!.textContent = state.resultMessage;
+        }
+    }
+
     //reset the game again
     function resetGame() {
         gameFields.forEach((gameField) => {
@@ -118,14 +184,8 @@ document.addEventListener('DOMContentLoaded', () => {
         //make random player start again
         body?.classList.add(players[Math.floor(Math.random() * players.length)]);
         resultMessage!.style.display = 'none';
-    }
-
-    function updateCurrentPlayer() {
-        if(body?.classList.contains('player-o')) {
-            playerDisplay!.textContent = 'O';
-        } else {
-            playerDisplay!.textContent = 'X';
-        }
+        //reset the current gamestorage in the localstorage as well
+        localStorage.removeItem('tic-tac-toe');
     }
 
     resetButton?.addEventListener('click', () => {
