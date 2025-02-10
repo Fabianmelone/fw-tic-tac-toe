@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const body = document.querySelector('body');
     const gameFields = document.querySelectorAll<HTMLButtonElement>('.game-field');
-    const gameFieldIds = [...document.querySelectorAll<HTMLButtonElement>('.game-field')].map(button => button.id);
 
 
     const win = [
