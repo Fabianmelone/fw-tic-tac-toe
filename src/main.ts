@@ -37,20 +37,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
                 // if field is occopied stop function
             }
-            if (body?.classList.contains('player-o')) {
-                gameField.setAttribute("data-player", 'o');
+
+            //current player
+            const currentPlayer = body?.classList.contains('player-o') ? 'o' : 'x';
+            gameField.setAttribute('data-player', currentPlayer);
+            gameField.disabled = true;
+            //disable button, once field is marked
+
+            if (currentPlayer === 'o') {
                 body?.classList.remove('player-o');
                 body?.classList.add('player-x');
                 // if player one is playing add attribute o to the button and change to player x
             } else {
-                gameField.setAttribute("data-player", 'x'); 
                 body?.classList.remove('player-x');
                 body?.classList.add('player-o');
                 //same thing just the other way around
             }
-            gameField.disabled = true;
-            //disable button, once field is marked
+
+            //check for a win after every move
+            if (checkWin(currentPlayer)) {
+                console.log(`Player ${currentPlayer} won!`)
+            }
+            
         })
-    })
+    });
+
+    function checkWin(player:string): boolean {
+        return win.some(combination => {
+            return combination.every(id => {
+                const field = document.getElementById(id);
+                return field?.getAttribute('data-player') === player;
+            });
+        });
+    }
 
 });
