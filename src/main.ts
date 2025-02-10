@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll<HTMLButtonElement>('.game-field').forEach((button) => {
         buttonIds.push(button.id);
     });
+    //add unique button ids to an array
 
 
 
