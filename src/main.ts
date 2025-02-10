@@ -1,6 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     const body = document.querySelector('body');
     const gameFields = document.querySelectorAll<HTMLButtonElement>('.game-field');
+    const buttonIds: string[] = [];
+    document.querySelectorAll<HTMLButtonElement>('.game-field').forEach((button) => {
+        buttonIds.push(button.id);
+    });
+
 
 
 
