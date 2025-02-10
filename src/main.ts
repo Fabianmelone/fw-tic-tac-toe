@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const body = document.querySelector('body');
     const gameFields = document.querySelectorAll<HTMLButtonElement>('.game-field');
     const resetButton = document.querySelector<HTMLButtonElement>('#reset-button');
+    const resultMessage = document.querySelector<HTMLParagraphElement>('.result-text');
 
 
     const win = [
@@ -53,8 +54,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             //check for a win after every move
             if (checkWin(currentPlayer)) {
-                console.log(`Player ${currentPlayer.toUpperCase()} won!`);
-                resetGame();
+                resultMessage!.style.display = 'block';
+                resultMessage!.textContent =`Player ${currentPlayer.toUpperCase()} won!`;
+                setTimeout(resetGame, 2000);
             }
             
         })
@@ -91,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
         body?.classList.remove('player-o', 'player-x');
         //make random player start again
         body?.classList.add(players[Math.floor(Math.random() * players.length)]);
+        resultMessage!.style.display = 'none';
     }
 
     resetButton?.addEventListener('click', () => {
