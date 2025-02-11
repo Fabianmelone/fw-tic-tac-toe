@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
 
 
+    //both player states
     const players: string[] = ['player-o', 'player-x'];
 
     if (!loadGameState()) {
@@ -54,6 +55,26 @@ document.addEventListener('DOMContentLoaded', () => {
             gameField.disabled = true;
             //disable button, once field is marked
 
+       
+
+            //check for a win after every move
+            if (checkWin(currentPlayer)) {
+                resultMessage!.style.display = 'block';
+                resultMessage!.textContent =`Player ${currentPlayer.toUpperCase()} won!`;
+                localStorage.removeItem('tic-tac-toe');
+                setTimeout(resetGame, 2000);
+                //after testing I found out that it was showing a draw even if somebody won
+                return;
+            }
+
+            if (checkDraw()) {
+                resultMessage!.style.display = 'block';
+                resultMessage!.textContent = 'Draw!';
+                localStorage.removeItem('tic-tac-toe');
+                setTimeout(resetGame, 2000);
+                return;
+            }
+
             if (currentPlayer === 'o') {
                 body?.classList.remove('player-o');
                 body?.classList.add('player-x');
@@ -66,23 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             saveGameState();
             updateCurrentPlayer();
-
-            //check for a win after every move
-            if (checkWin(currentPlayer)) {
-                resultMessage!.style.display = 'block';
-                resultMessage!.textContent =`Player ${currentPlayer.toUpperCase()} won!`;
-                setTimeout(resetGame, 2000);
-                //after testing I found out that it was showing a draw even if somebody won
-                return;
-            }
-
-            if (checkDraw()) {
-                resultMessage!.style.display = 'block';
-                resultMessage!.textContent = 'Draw!';
-                setTimeout(resetGame, 2000);
-            }
-            
-        })
+        });
     });
 
     // check for the win of each player
@@ -193,9 +198,10 @@ document.addEventListener('DOMContentLoaded', () => {
         resultMessage!.style.display = 'none';
         //reset the current gamestorage in the localstorage as well
         localStorage.removeItem('tic-tac-toe');
+
+        //call update new player immediately after new player is assigned
+        updateCurrentPlayer();
     }
 
-    resetButton?.addEventListener('click', () => {
-        resetGame();
-    })
+    resetButton?.addEventListener('click', resetGame)
 });

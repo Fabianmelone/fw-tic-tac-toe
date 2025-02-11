@@ -31,6 +31,20 @@ document.addEventListener("DOMContentLoaded", () => {
       const currentPlayer = body?.classList.contains("player-o") ? "o" : "x";
       gameField.setAttribute("data-player", currentPlayer);
       gameField.disabled = true;
+      if (checkWin(currentPlayer)) {
+        resultMessage.style.display = "block";
+        resultMessage.textContent = `Player ${currentPlayer.toUpperCase()} won!`;
+        localStorage.removeItem("tic-tac-toe");
+        setTimeout(resetGame, 2e3);
+        return;
+      }
+      if (checkDraw()) {
+        resultMessage.style.display = "block";
+        resultMessage.textContent = "Draw!";
+        localStorage.removeItem("tic-tac-toe");
+        setTimeout(resetGame, 2e3);
+        return;
+      }
       if (currentPlayer === "o") {
         body?.classList.remove("player-o");
         body?.classList.add("player-x");
@@ -40,17 +54,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       saveGameState();
       updateCurrentPlayer();
-      if (checkWin(currentPlayer)) {
-        resultMessage.style.display = "block";
-        resultMessage.textContent = `Player ${currentPlayer.toUpperCase()} won!`;
-        setTimeout(resetGame, 2e3);
-        return;
-      }
-      if (checkDraw()) {
-        resultMessage.style.display = "block";
-        resultMessage.textContent = "Draw!";
-        setTimeout(resetGame, 2e3);
-      }
     });
   });
   function checkWin(player) {
@@ -130,9 +133,8 @@ document.addEventListener("DOMContentLoaded", () => {
     body?.classList.add(players[Math.floor(Math.random() * players.length)]);
     resultMessage.style.display = "none";
     localStorage.removeItem("tic-tac-toe");
+    updateCurrentPlayer();
   }
-  resetButton?.addEventListener("click", () => {
-    resetGame();
-  });
+  resetButton?.addEventListener("click", resetGame);
 });
 //# sourceMappingURL=main.js.map
